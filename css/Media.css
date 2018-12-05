@@ -1,0 +1,362 @@
+﻿@media (max-width:767px) and (min-width:320px) {
+    .mob-padding0 {
+        padding: 0px !important;
+    }
+
+    .left-menu-open {
+        left: 0% !important;
+        margin-top: 4px;
+    }
+
+    .mail-sidebar {
+        width: 260px !important;
+    }
+
+    .mobmenubar {
+        display: inline-block;
+    }
+
+    .inbox_mail_list {
+        max-height: initial;
+        min-height: initial;
+    }
+
+    .head_topbar h2 {
+        font-size: 24px;
+        line-height: 40px;
+    }
+
+    .head_topbar {
+        margin-top: 0px;
+    }
+
+    .mob-paddingrt_left0 {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .draft-date {
+        line-height: 30px;
+        bottom: 0;
+        text-align: right;
+        right: 15px;
+        width: 100%;
+        position: absolute;
+    }
+
+    .mail-list {
+        position: relative;
+        padding: 5px 10px 25px 10px !important;
+    }
+
+    .star-draft i {
+        margin: 0 auto !important;
+    }
+
+    .check_inptblock {
+        margin-top: 0px !important;
+    }
+
+    .star-draft {
+        width: 10% !important;
+        margin-right: 8px;
+        text-align: center;
+        margin-left: 5px;
+    }
+
+    .mobilebg {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 98;
+        display: none;
+        background-color: rgba(0,0,0,0.3);
+    }
+
+    .form-text-title {
+        text-align: left !important;
+    }
+
+    .mob_visble {
+        display: block;
+    }
+
+    .email_cont {
+        margin-top: 45px;
+    }
+
+    /*.mob-inbox {
+        display: none;
+    }*/
+
+    .mob-sentbox {
+        display: none;
+    }
+
+    .mob-outbox {
+        display: none;
+    }
+
+    .newmailview {
+        left: 0;
+    }
+
+    .mob_contnrinboxlist {
+        display: inline-block;
+        z-index: 1;
+        width: 100%;
+        /* margin-left: -100%; */
+        float: left;
+        transition: all ease-in-out .5s;
+    }
+
+    .mob_contnr-inbox {
+        display: inline-block;
+        float: left;
+        width: 100%;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        margin-left: -100%;
+        transition: all ease-in-out .5s;
+    }
+
+    .email-wrapper .message-body .sender-details {
+        padding: 10px 5px 15px;
+        position: relative;
+    }
+
+    .msg-date {
+        position: absolute;
+        margin-bottom: 0px;
+        bottom: 2px;
+        font-size: 12px;
+        right: 0;
+    }
+
+    .sender-email {
+        font-size: 14px;
+    }
+
+    .email-wrapper .message-body .message-content {
+        padding: 20px 10px;
+        font-size: 15px;
+    }
+
+    .tab-mrgnbtm5 {
+        margin-bottom: 5px;
+    }
+
+    .btn-backmob {
+        display: block;
+        margin-left: 10px;
+    }
+
+    .compose-box {
+        margin-top: 15px;
+    }
+
+    .input-mail {
+        height: auto;
+    }
+    .deletall_inboxcheck {
+    padding-left:3px;
+    }
+    .details {
+    width:auto;
+    }
+}
+
+@media (max-width:479px) and (min-width:320px) {
+    .input_row {
+        padding-left: 50px;
+    }
+
+    .mail_receipent {
+        left: -15px;
+    }
+
+    .grid-body {
+        padding: 10px 12px;
+    }
+
+    .mobpd4 {
+        padding: 7px !important;
+    }
+
+    .configure-title {
+        float: left;
+    }
+
+    .dropmenu_ccbox {
+        min-width: 280px;
+    }
+
+    .dropdown-item {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .dropdown-menu.show {
+        font-size: 12px;
+    }
+
+    .mail_cc_option_right {
+        font-size: 12px;
+    }
+
+    .file-attachted-name {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .img-attachment img {
+        width: 65px;
+        height: 45px;
+    }
+
+    .img-attachment {
+        max-height: 90px;
+        width: 90px;
+        min-height: 90px;
+        padding: 5px;
+    }
+}
+
+@media (max-width:575px) and (min-width:480px) {
+    .configure-title {
+        float: left;
+    }
+}
+
+@media (max-width:1023px) and (min-width:768px) {
+
+    .tab-padding0 {
+        padding: 0px;
+    }
+
+    .tab-mrgnbtm5 {
+        margin-bottom: 5px;
+    }
+
+    .tab_tp_btm10 {
+        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+    }
+
+    .pd_left-right10 {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .email-wrapper .message-body .sender-details {
+        padding: 10px 8px 30px;
+    }
+
+    .img-sm {
+        height: 30px;
+        width: 30px;
+    }
+
+    .email-wrapper .message-body .message-content {
+        max-height: 400px;
+        overflow: AUTO;
+        padding: 15px 5px;
+    }
+
+    .email-wrapper .message-body .attachments-sections ul {
+        padding: 15px 5px 10px;
+    }
+
+        .email-wrapper .message-body .attachments-sections ul li {
+            padding: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+            .email-wrapper .message-body .attachments-sections ul li .thumb i {
+                font-size: 20px;
+            }
+
+            .email-wrapper .message-body .attachments-sections ul li .details p.file-name {
+                font-size: 14px;
+            }
+
+    .tab_details_sendr {
+        position: relative;
+    }
+
+        .tab_details_sendr .msg-date {
+            position: absolute;
+            bottom: -15px;
+            right: 0;
+            font-size: 12px;
+        }
+
+    .tab_bx_height {
+        max-height: 500px;
+        min-height: 500px;
+        height: auto;
+    }
+
+    .tab_mailbox {
+        position: relative;
+    }
+
+    .tab_dt_Drft {
+        position: ABSOLUTE;
+        width: 100%;
+        right: 0px;
+        bottom: 0;
+        text-align: right;
+    }
+
+    .mail-sidebar {
+        position: fixed !important;
+        z-index: 99;
+        top: 45px;
+    }
+    .sender-details {
+        position: relative;
+        padding: 10px 8px 30px;
+    }
+
+    .msg-date {
+        position: absolute;
+        bottom: 5px;
+        float: initial;
+        right: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+@media (max-width:991px) and (min-width:768px) {
+    .details {
+        width: 100%;
+    }
+        .newmailview {
+        left: 25%;
+    }
+}
+
+@media (min-width:992px) and (max-width:1023px) {
+    .details {
+        width: 100%;
+        position: relative;
+    }
+
+    .msg-date {
+        bottom: -20px;
+        right: 0;
+    }
+        .newmailview {
+        left: 16%;
+    }
+}
+@media (min-width:1024px) and (max-width:1199px) {
+
+    .details {
+        width: 440px;
+    }
+}

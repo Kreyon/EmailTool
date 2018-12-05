@@ -1,0 +1,13 @@
+Unable to read data from the transport connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+Server is not available
+Server is not available
+A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 173.201.193.228:22
+A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 173.201.193.101:22
+The handshake failed due to an unexpected packet format.
+A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 182.50.144.84:143
+The handshake failed due to an unexpected packet format.
+The handshake failed due to an unexpected packet format.
+A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 182.50.144.84:993
+Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host.
+-ERR Logon failure: unknown user name or bad password.
+-ERR Logon failure: unknown user name or bad password.

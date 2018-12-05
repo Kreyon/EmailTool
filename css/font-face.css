@@ -1,0 +1,152 @@
+@font-face {
+    font-family:'Avenir LT Std 45 Book';
+    src: url('../fonts/Avenir/AvenirLTStd-Book.eot');
+	src: url('../fonts/Avenir/AvenirLTStd-Book.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Avenir/AvenirLTStd-Book.woff2') format('woff2'),
+		url('../fonts/Avenir/AvenirLTStd-Book.woff') format('woff'),
+		url('../fonts/Avenir/AvenirLTStd-Book.svg#AvenirLTStd-Book') format('svg');
+    font-weight: 350;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 45 Book';
+    src: url('../fonts/Avenir/AvenirLTStd-BookOblique.eot');
+	src: url('../fonts/Avenir/AvenirLTStd-BookOblique.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Avenir/AvenirLTStd-BookOblique.woff2') format('woff2'),
+		url('../fonts/Avenir/AvenirLTStd-BookOblique.woff') format('woff'),
+		url('../fonts/Avenir/AvenirLTStd-BookOblique.svg#AvenirLTStd-BookOblique') format('svg');
+    font-weight: 350;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+@font-face {
+    font-family:'Avenir LT Std 65 Medium';
+    src: url('../fonts/Avenir/AvenirLTStd-Black.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Black.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Black.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Black.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Black.svg#AvenirLTStd-Black') format('svg');
+    font-weight: 750;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 65 Medium';
+    src: url('../fonts/Avenir/AvenirLTStd-BlackOblique.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-BlackOblique.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-BlackOblique.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-BlackOblique.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-BlackOblique.svg#AvenirLTStd-BlackOblique') format('svg');
+    font-weight: 750;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 65 Medium';
+    src: url('../fonts/Avenir/AvenirLTStd-Medium.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Medium.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Medium.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Medium.svg#AvenirLTStd-Medium') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 65 Medium';
+    src: url('../fonts/Avenir/AvenirLTStd-MediumOblique.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-MediumOblique.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-MediumOblique.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-MediumOblique.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-MediumOblique.svg#AvenirLTStd-MediumOblique') format('svg');
+    font-weight: 600;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+@font-face {
+    font-family:'Avenir LT Std 55 Roman';
+    src: url('../fonts/Avenir/AvenirLTStd-Heavy.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Heavy.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Heavy.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Heavy.svg#AvenirLTStd-Heavy') format('svg');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 55 Roman';
+    src: url('../fonts/Avenir/AvenirLTStd-HeavyOblique.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-HeavyOblique.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-HeavyOblique.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-HeavyOblique.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-HeavyOblique.svg#AvenirLTStd-HeavyOblique') format('svg');
+    font-weight: 700;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 55 Roman';
+    src: url('../fonts/Avenir/AvenirLTStd-Oblique.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Oblique.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Oblique.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Oblique.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Oblique.svg#AvenirLTStd-Oblique') format('svg');
+    font-weight: 400;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 55 Roman';
+    src: url('../fonts/Avenir/AvenirLTStd-Roman.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Roman.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Roman.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Roman.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Roman.svg#AvenirLTStd-Roman') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+@font-face {
+    font-family:'Avenir LT Std 35 Light';
+    src: url('../fonts/Avenir/AvenirLTStd-Light.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-Light.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-Light.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-Light.svg#AvenirLTStd-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}
+
+@font-face {
+    font-family:'Avenir LT Std 35 Light';
+    src: url('../fonts/Avenir/AvenirLTStd-LightOblique.eot');
+    src: url('../fonts/Avenir/AvenirLTStd-LightOblique.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Avenir/AvenirLTStd-LightOblique.woff2') format('woff2'),
+        url('../fonts/Avenir/AvenirLTStd-LightOblique.woff') format('woff'),
+        url('../fonts/Avenir/AvenirLTStd-LightOblique.svg#AvenirLTStd-LightOblique') format('svg');
+    font-weight: 300;
+    font-style: oblique;
+    font-stretch: normal;
+    unicode-range: U+0020-00FE;
+}

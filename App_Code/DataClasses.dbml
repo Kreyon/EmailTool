@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="EmailTool" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=192.168.1.246\Kreyon10;Initial Catalog=EmailTool;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="EmailToolConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.DraftEmailTable" Member="DraftEmailTables">
+    <Type Name="DraftEmailTable">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Draftpath" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="EmailConfig_DraftEmailTable" Member="EmailConfig" ThisKey="UserId" OtherKey="Id" Type="EmailConfig" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrashMailsTable" Member="TrashMailsTables">
+    <Type Name="TrashMailsTable">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="XMLPath" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EmailType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="InboxMailThreadID" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="EmailConfig_TrashMailsTable" Member="EmailConfig" ThisKey="UserID" OtherKey="Id" Type="EmailConfig" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OutBoxMail" Member="OutBoxMails">
+    <Type Name="OutBoxMail">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OutboxMailPath" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="EmailConfig_OutBoxMail" Member="EmailConfig" ThisKey="UserId" OtherKey="Id" Type="EmailConfig" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SendedMail" Member="SendedMails">
+    <Type Name="SendedMail">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SendMailPath" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="EmailConfig_SendedMail" Member="EmailConfig" ThisKey="UserId" OtherKey="Id" Type="EmailConfig" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StarredEmailTable" Member="StarredEmailTables">
+    <Type Name="StarredEmailTable">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="IsInbox" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="XmlPath" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="From1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="EmailConfig_StarredEmailTable" Member="EmailConfig" ThisKey="UserId" OtherKey="Id" Type="EmailConfig" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EmailConfig" Member="EmailConfigs">
+    <Type Name="EmailConfig">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Access" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Host" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Port" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SmtpServer" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SmtpPort" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Signature" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsReplyAll" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsCompose" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsForward" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="EmailConfig_DraftEmailTable" Member="DraftEmailTables" ThisKey="Id" OtherKey="UserId" Type="DraftEmailTable" />
+      <Association Name="EmailConfig_TrashMailsTable" Member="TrashMailsTables" ThisKey="Id" OtherKey="UserID" Type="TrashMailsTable" />
+      <Association Name="EmailConfig_OutBoxMail" Member="OutBoxMails" ThisKey="Id" OtherKey="UserId" Type="OutBoxMail" />
+      <Association Name="EmailConfig_SendedMail" Member="SendedMails" ThisKey="Id" OtherKey="UserId" Type="SendedMail" />
+      <Association Name="EmailConfig_StarredEmailTable" Member="StarredEmailTables" ThisKey="Id" OtherKey="UserId" Type="StarredEmailTable" />
+    </Type>
+  </Table>
+</Database>

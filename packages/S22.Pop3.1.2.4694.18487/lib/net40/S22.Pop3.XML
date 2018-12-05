@@ -1,0 +1,1055 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>S22.Pop3</name>
+    </assembly>
+    <members>
+        <member name="T:S22.Pop3.Pop3Client">
+            <summary>
+            Allows applications to communicate with a mail server by using the
+            Post Office Protocol version 3 (POP3).
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.#ctor(System.String,System.Int32,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+            <summary>
+            Initializes a new instance of the Pop3Client class and connects to the specified port
+            on the specified host, optionally using the Secure Socket Layer (SSL) security protocol.
+            </summary>
+            <param name="hostname">The DNS name of the server to which you intend to connect.</param>
+            <param name="port">The port number of the server to which you intend to connect.</param>
+            <param name="ssl">Set to true to use the Secure Socket Layer (SSL) security protocol.</param>
+            <param name="validate">Delegate used for verifying the remote Secure Sockets
+            Layer (SSL) certificate which is used for authentication. Set this to null if not needed</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">The port parameter is not between MinPort
+            and MaxPort.</exception>
+            <exception cref="T:System.ArgumentNullException">The hostname parameter is null.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An error occurred while accessing the socket used for
+            establishing the connection to the POP3 server. Use the ErrorCode property to obtain the
+            specific error code</exception>
+            <exception cref="T:System.Security.Authentication.AuthenticationException">An authentication
+            error occured while trying to establish a secure connection.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if an unexpected response is received
+            from the server upon connecting.</exception>
+            <example>
+				This example shows how to establish a connection with a POP3 server
+				and print out the POP3 options, which the server supports.
+				<code>
+					/* Connect to AOL's POP3 server */
+					Pop3Client Client = new Pop3Client("pop.aol.com");
+
+					/* Print out the server's capabilities. */
+					foreach(string s in Client.Capabilities())
+						Console.WriteLine(s);
+
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.#ctor(System.String,System.Int32,System.String,System.String,S22.Pop3.AuthMethod,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+            <summary>
+            Initializes a new instance of the Pop3Client class and connects to the specified port on
+            the specified host, optionally using the Secure Socket Layer (SSL) security protocol and
+            attempts to authenticate with the server using the specified authentication method and
+            credentials.
+            </summary>
+            <param name="hostname">The DNS name of the server to which you intend to connect.</param>
+            <param name="port">The port number of the server to which you intend to connect.</param>
+            <param name="username">The username with which to login in to the POP3 server.</param>
+            <param name="password">The password with which to log in to the POP3 server.</param>
+            <param name="method">The requested method of authentication. Can be one of the values
+            of the AuthMethod enumeration.</param>
+            <param name="ssl">Set to true to use the Secure Socket Layer (SSL) security protocol.</param>
+            <param name="validate">Delegate used for verifying the remote Secure Sockets Layer
+            (SSL) certificate which is used for authentication. Set this to null if not needed</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">The port parameter is not between MinPort
+            and MaxPort.</exception>
+            <exception cref="T:System.ArgumentNullException">The hostname parameter is null.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An error occurred while accessing the socket used for
+            establishing the connection to the POP3 server. Use the ErrorCode property to obtain the
+            specific error code</exception>
+            <exception cref="T:System.Security.Authentication.AuthenticationException">An authentication
+            error occured while trying to establish a secure connection.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if an unexpected response is received
+            from the server upon connecting.</exception> 
+            <exception cref="T:S22.Pop3.InvalidCredentialsException">Thrown if authentication using the
+            supplied credentials failed.</exception>
+            <example>
+				This example demonstrates how to establish a secure connection, login
+				to a POP3 server and check for new messages.
+				<code>
+					/* Connect to Gmail's POP3 server on port 995 using SSL */
+					try {
+						Pop3Client Client = new Pop3Client("pop.gmail.com", 995, "My_Username",
+							"My_Password", true, AuthMethod.Login);
+							
+						MessageInfo[] info = Client.GetStatus();
+						if(info.Length &gt; 0)
+							Console.WriteLine(info.Length + " new messages");
+						else
+							Console.WriteLine("No new messages");
+
+						Client.Dispose();
+					}
+					catch(InvalidCredentialsException) {
+						Console.WriteLine("The server rejected the supplied credentials");
+					}
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Connect(System.String,System.Int32,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+            <summary>
+            Connects to the specified port on the specified host, optionally using the Secure Socket Layer
+            (SSL) security protocol.
+            </summary>
+            <param name="hostname">The DNS name of the server to which you intend to connect.</param>
+            <param name="port">The port number of the server to which you intend to connect.</param>
+            <param name="ssl">Set to true to use the Secure Socket Layer (SSL) security protocol.</param>
+            <param name="validate">Delegate used for verifying the remote Secure Sockets
+            Layer (SSL) certificate which is used for authentication. Set this to null if not needed</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">The port parameter is not between MinPort
+            and MaxPort.</exception>
+            <exception cref="T:System.ArgumentNullException">The hostname parameter is null.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An error occurred while accessing the socket used for
+            establishing the connection to the POP3 server. Use the ErrorCode property to obtain the
+            specific error code.</exception>
+            <exception cref="T:System.Security.Authentication.AuthenticationException">An authentication
+            error occured while trying to establish a secure connection.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if an unexpected response is received
+            from the server upon connecting.</exception>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.IsResponseOK(System.String)">
+            <summary>
+            Determines whether the received response is a valid POP3 OK response.
+            </summary>
+            <param name="response">A response string received from the server</param>
+            <returns>True if the response is a valid POP3 OK response, otherwise false
+            is returned.</returns>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.SendCommand(System.String)">
+            <summary>
+            Sends a command string to the server. This method blocks until the command has
+            been transmitted.
+            </summary>
+            <param name="command">Command string to be sent to the server. The command string is
+            suffixed by CRLF (as is required by the POP3 protocol) prior to sending.</param>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.SendCommandGetResponse(System.String)">
+            <summary>
+            Sends a command string to the server and subsequently waits for a response, which is
+            then returned to the caller. This method blocks until the server response has been
+            received.
+            </summary>
+            <param name="command">Command string to be sent to the server. The command string is
+            suffixed by CRLF (as is required by the POP3 protocol) prior to sending.</param>
+            <returns>The response received by the server.</returns>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.GetResponse">
+            <summary>
+            Waits for a response from the server. This method blocks
+            until a response has been received.
+            </summary>
+            <returns>A response string from the server</returns>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Login(System.String,System.String,S22.Pop3.AuthMethod)">
+            <summary>
+            Attempts to establish an authenticated session with the server using the specified
+            credentials.
+            </summary>
+            <param name="username">The username with which to login in to the POP3 server.</param>
+            <param name="password">The password with which to log in to the POP3 server.</param>
+            <param name="method">The requested method of authentication. Can be one of the values
+            of the AuthMethod enumeration.</param>
+            <exception cref="T:S22.Pop3.InvalidCredentialsException">Thrown if authentication using the
+            supplied credentials failed.</exception>
+            <example>
+				This example demonstrates how to authenticate with a POP3 server once a connection
+				has been established. Notice that you can also connect and login in one step
+				using one of the overloaded constructors. 
+				<code>
+					/* Connect to Gmail's POP3 server on port 995 using SSL */
+					Pop3Client Client = new Pop3Client("pop.gmail.com", 995, true);
+
+					try {
+						Client.Login("My_Username", "My_Password", AuthMethod.Login);
+					}
+					catch(InvalidCredentialsException) {
+						Console.WriteLine("The server rejected the supplied credentials");
+					}
+					
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Logout">
+            <summary>
+            Logs an authenticated client out of the server. After the logout sequence has
+            been completed, the server closes the connection with the client.
+            </summary>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if an unexpected response is
+            received from the server during the logout sequence</exception>
+            <remarks>Calling Logout in a non-authenticated state has no effect</remarks>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Capabilities">
+            <summary>
+            Returns a listing of capabilities that the POP3 server supports. All strings
+            in the returned array are guaranteed to be upper-case.
+            </summary>
+            <exception cref="T:System.NotSupportedException">Thrown if the server does not support retrieving
+            a list of its capabilities.</exception>
+            <returns>A listing of supported capabilities as an array of strings</returns>
+            <remarks>This is one of the few methods which can be called in a non-authenticated
+            state. The command for retrieving a list of capabilities is an optional extension to
+            the POP3 protocol, so not every server may support it.</remarks>
+            <example>
+				This example shows how to establish a connection with a POP3 server
+				and print out the POP3 options, which the server supports.
+				<code>
+					/* Connect to AOL's POP3 server */
+					Pop3Client Client = new Pop3Client("pop.aol.com");
+
+					/* Print out the server's capabilities. */
+					foreach(string s in Client.Capabilities())
+						Console.WriteLine(s);
+
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Supports(System.String)">
+            <summary>
+            Returns whether the specified capability is supported by the server.
+            </summary>
+            <param name="capability">The capability to probe for (for example "IDLE")</param>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if an unexpected response is received
+            from the server during the request. The message property of the exception contains
+            the error message returned by the server.</exception>
+            <exception cref="T:System.NotSupportedException">Thrown if the server does not implement
+            the underlying infrastructure the Supports method relies upon.</exception>
+            <returns>Returns true if the specified capability is supported by the server, 
+            otherwise false is returned.</returns>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.GetStatus">
+            <summary>
+            Retrieves status information (list of messages with message numbers as well
+            as size for each message)</summary>
+            <returns>An array of MessageInfo objects containing status information for the
+            mailbox.</returns>
+            <exception cref="T:S22.Pop3.NotAuthenticatedException">Thrown if the method was called
+            in a non-authenticated state, i.e. before logging into the server with
+            valid credentials.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if the operation could
+            not be completed. The message property of the exception contains the error message
+            returned by the server.</exception>
+            <example>
+				<code>
+					Pop3Client Client = new Pop3Client("pop.gmail.com", 995, "My_UsernamMe",
+						"My_Password", true, AuthMethod.Login);
+
+					MessageInfo[] info = Client.GetStatus();
+					
+					foreach(MessageInfo i in info)
+					{
+						Console.WriteLine("New message in inbox with messageNumber = " + i.Number +
+							", size in bytes = " + i.Size);
+					}
+					
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.GetMessageNumbers">
+            <summary>
+            Retrieves a list of message numbers of all mail messages in the mailbox.
+            </summary>
+            <returns>An array of message numbers representing the mail messages in the
+            mailbox on the server.</returns>
+            <exception cref="T:S22.Pop3.NotAuthenticatedException">Thrown if the method was called
+            in a non-authenticated state, i.e. before logging into the server with
+            valid credentials.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if the operation could
+            not be completed. The message property of the exception contains the error message
+            returned by the server.</exception>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.GetMessage(System.UInt32,S22.Pop3.FetchOptions,System.Boolean)">
+            <summary>
+            Retrieves a mail message from the POP3 server.
+            </summary>
+            <param name="number">The message number of the mail message to retrieve</param>
+            <param name="options">A value from the FetchOptions enumeration which allows
+            for fetching selective parts of a mail message.</param>
+            <param name="delete">Set this to true to delete the message on the server
+            after it has been retrieved.</param>
+            <exception cref="T:S22.Pop3.NotAuthenticatedException">Thrown if the method was called
+            in a non-authenticated state, i.e. before logging into the server with
+            valid credentials.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if the mail message could
+            not be retrieved. The message property of the exception contains the error message
+            returned by the server.</exception>
+            <returns>An initialized instance of the MailMessage class representing the
+            fetched mail message</returns>
+            <example>
+				<code>
+					Pop3Client Client = new Pop3Client("pop.gmail.com", 995, "My_Username",
+						"My_Password", true, AuthMethod.Login);
+						
+					MessageInfo[] info = Client.GetStatus();
+					
+					/* download the first message and print its subject line */
+					if(info.Length &gt; 0)
+					{
+						MailMessage message = Client.GetMessage(info[0].Number);
+						Console.WriteLine("Subject: " + message.Subject);
+					}
+					
+					Client.Dispose();
+				</code>
+			</example><example>
+				This example demonstrates how to retrieve only the mail message headers of
+				a mail message, instead of retrieving the entire message.
+				<code>
+					Pop3Client Client = new Pop3Client("pop.gmail.com", 995, "My_Username",
+						"My_Password", true, AuthMethod.Login);
+						
+					MessageInfo[] info = Client.GetStatus();
+					
+					/* download the first message's headers and print its subject line */
+					if(info.Length &gt; 0)
+					{
+						MailMessage message = Client.GetMessage(info[0].Number, FetchOptions.HeadersOnly);
+						Console.WriteLine("Subject: " + message.Subject);
+					}
+					
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.GetMessages(System.UInt32[],S22.Pop3.FetchOptions,System.Boolean)">
+            <summary>
+            Retrieves a set of mail messages. If no parameters are specified, all
+            mail messages in the mailbox will be retrieved.
+            </summary>
+            <param name="numbers">An array of message numbers of the mail messages to
+            retrieve. If this parameter is null, all mail messages will be retrieved.
+            </param>
+            <param name="options">A value from the FetchOptions enumeration which allows
+            for fetching selective parts of a mail message.</param>
+            <param name="delete">Set this to true to delete the messages on the server
+            after they have been retrieved.</param>
+            <exception cref="T:S22.Pop3.NotAuthenticatedException">Thrown if the method was called
+            in a non-authenticated state, i.e. before logging into the server with
+            valid credentials.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if the mail messages could
+            not be fetched. The message property of the exception contains the error message
+            returned by the server.</exception>
+            <returns>An array of initialized instances of the MailMessage class representing
+            the fetched mail messages</returns>
+            <example>
+				<code>
+					Pop3Client Client = new Pop3Client("pop.gmail.com", 995, "My_Username",
+						"My_Password", true, AuthMethod.Login);
+						
+					/* Download all new messages from the server */
+					MailMessages messages[] = Client.GetMessages();
+
+					/* Print out each message's subject line */
+					foreach(MailMessage m in messages)
+						Console.WriteLine("Subject: " + m.Subject);
+
+					Client.Dispose();
+				</code>
+			</example>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.DeleteMessage(System.UInt32)">
+            <summary>
+            Deletes the mail message with the specified message number.
+            </summary>
+            <param name="number">The message number of the mail message that is to be
+            deleted.</param>
+            <exception cref="T:S22.Pop3.NotAuthenticatedException">Thrown if the method was called
+            in a non-authenticated state, i.e. before logging into the server with
+            valid credentials.</exception>
+            <exception cref="T:S22.Pop3.BadServerResponseException">Thrown if the mail message could
+            not be deleted. The message property of the exception contains the error
+            message returned by the server.</exception>
+        </member>
+        <member name="M:S22.Pop3.Pop3Client.Dispose">
+            <summary>
+            Releases all resources used by this Pop3Client object.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Pop3Client.Authed">
+            <summary>
+            Indicates whether the client is authenticated with the server
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.MessageBuilder">
+            <summary>
+            A helper class for reading mail message data and building a MailMessage
+            instance out of it.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.FromHeader(System.String)">
+            <summary>
+            Creates a new empty instance of the MailMessage class from a string
+            containing a raw mail message header.
+            </summary>
+            <param name="text">A string containing the mail header to create
+            the MailMessage instance from.</param>
+            <returns>A MailMessage instance with initialized Header fields but
+            no content</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.FromMIME822(System.String)">
+            <summary>
+            Creates a new instance of the MailMessage class from a string
+            containing raw RFC822/MIME mail message data.
+            </summary>
+            <param name="text">A string containing the mail message data to
+            create the MailMessage instance from.</param>
+            <returns>An initialized instance of the MailMessage class.</returns>
+            <remarks>This is used when fetching entire messages instead
+            of the partial-fetch mechanism because it saves redundant
+            round-trips to the server.</remarks>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseMailHeader(System.String)">
+            <summary>
+            Parses the mail header of a mail message and returns it as a
+            NameValueCollection.
+            </summary>
+            <param name="header">The mail header to parse.</param>
+            <returns>A NameValueCollection containing the header fields as keys
+            with their respective values as values.</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseMIMEField(System.String)">
+            <summary>
+            Parses a MIME header field which can contain multiple 'parameter = value'
+            pairs (such as Content-Type: text/html; charset=iso-8859-1).
+            </summary>
+            <param name="field">The header field to parse</param>
+            <returns>A NameValueCollection containing the parameter names as keys
+            with the respective parameter values as values.</returns>
+            <remarks>The value of the actual field disregarding the 'parameter = value'
+            pairs is stored in the collection under the key "value" (in the above example
+            of Content-Type, this would be "text/html").</remarks>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseAddressList(System.String)">
+            <summary>
+            Parses a mail header address-list field such as To, Cc and Bcc which
+            can contain multiple email addresses.
+            </summary>
+            <param name="list">The address-list field to parse</param>
+            <returns>An array of MailAddress objects representing the parsed
+            mail addresses.</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseMessageId(System.String)">
+            <summary>
+            Parses a mail message identifier from a string.
+            </summary>
+            <param name="field">The field to parse the message id from</param>
+            <exception cref="T:System.ArgumentException">Thrown when the field
+            argument does not contain a valid message identifier.</exception>
+            <returns>The parsed message id</returns>
+            <remarks>A message identifier (msg-id) is a globally unique
+            identifier for a message.</remarks>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParsePriority(System.String)">
+            <summary>
+            Parses the priority of a mail message which can be specified
+            as part of the header information.
+            </summary>
+            <param name="priority">The mail header priority value. The value
+            can be null in which case a "normal priority" is returned.</param>
+            <returns>A value from the MailPriority enumeration corresponding to
+            the specified mail priority. If the passed priority value is null
+            or invalid, a normal priority is assumed and MailPriority.Normal
+            is returned.</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.SetAddressFields(System.Net.Mail.MailMessage,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Sets the address fields (From, To, CC, etc.) of a MailMessage
+            object using the specified mail message header information.
+            </summary>
+            <param name="m">The MailMessage instance to operate on</param>
+            <param name="header">A collection of mail and MIME headers</param>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.AddBodypart(System.Net.Mail.MailMessage,S22.Pop3.Bodypart,System.String)">
+            <summary>
+            Adds a body part to an existing MailMessage instance.
+            </summary>
+            <param name="message">Extension method for the MailMessage class.</param>
+            <param name="part">The body part to add to the MailMessage instance.</param>
+            <param name="content">The content of the body part.</param>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.CreateAttachment(S22.Pop3.Bodypart,System.Byte[])">
+            <summary>
+            Creates an instance of the Attachment class used by the MailMessage class
+            to store mail message attachments.
+            </summary>
+            <param name="part">The MIME body part to create the attachment from.</param>
+            <param name="bytes">An array of bytes composing the content of the
+            attachment</param>
+            <returns>An initialized instance of the Attachment class</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.CreateAlternateView(S22.Pop3.Bodypart,System.Byte[])">
+            <summary>
+            Creates an instance of the AlternateView class used by the MailMessage class
+            to store alternate views of the mail message's content.
+            </summary>
+            <param name="part">The MIME body part to create the alternate view from.</param>
+            <param name="bytes">An array of bytes composing the content of the
+            alternate view</param>
+            <returns>An initialized instance of the AlternateView class</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseMailBody(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Parses the body part of a MIME/RFC822 mail message.
+            </summary>
+            <param name="body">The body of the mail message.</param>
+            <param name="header">The header of the mail message whose body
+            will be parsed.</param>
+            <returns>An array of initialized MIMEPart instances representing
+            the body parts of the mail message.</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.ParseMIMEParts(System.IO.StringReader,System.String)">
+            <summary>
+            Parses the body of a multipart MIME mail message.
+            </summary>
+            <param name="reader">An instance of the StringReader class initialized
+            with a string containing the body of the mail message.</param>
+            <param name="boundary">The boundary value as is present as part of
+            the Content-Type header field in multipart mail messages.</param>
+            <returns>An array of initialized MIMEPart instances representing
+            the various parts of the MIME mail message.</returns>
+        </member>
+        <member name="M:S22.Pop3.MessageBuilder.BodypartFromMIME(S22.Pop3.MIMEPart)">
+            <summary>
+            Glue method to create a bodypart from a MIMEPart instance.
+            </summary>
+            <param name="mimePart">The MIMEPart instance to create the
+            bodypart instance from.</param>
+            <returns>An initialized instance of the Bodypart class.</returns>
+        </member>
+        <member name="T:S22.Pop3.ContentType">
+            <summary>
+            Possible values for the "Type" property of the Bodypart class.
+            For a detailed description of MIME Media Types refer to
+            RFC 2046.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Text">
+            <summary>
+            The "text" media type is intended for sending material which
+            is principally textual in form.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Image">
+            <summary>
+            A media type of "image" indicates that the body contains an image.
+            The subtype names the specific image format. 
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Audio">
+            <summary>
+            A media type of "audio" indicates that the body contains audio
+            data.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Video">
+            <summary>
+            A media type of "video" indicates that the body contains a
+            time-varying-picture image, possibly with color and coordinated sound.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Application">
+            <summary>
+            The "application" media type is to be used for discrete data which do
+            not fit in any of the other categories, and particularly for data to
+            be processed by some type of application program.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Message">
+            <summary>
+            The "message" content type allows messages to contain other messages
+            or pointers to other messages.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentType.Other">
+            <summary>
+            The media type value is unknown or could not be determined.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.Bodypart">
+            <summary>
+            Represents a MIME body part of a mail message that has multiple
+            parts.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.Bodypart.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Bodypart class with default
+            values.
+            </summary>
+            <param name="partNumber">The part number as is expected by the
+            IMAP FETCH command.</param>
+        </member>
+        <member name="M:S22.Pop3.Bodypart.ToString">
+            <summary>
+            Returns a detailed description listing all properties of this
+            Bodypart instance.
+            </summary>
+            <returns>A string describing this instance of the Bodypart class</returns>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.PartNumber">
+            <summary>
+            The body part number which acts as part specifier for
+            the FETCH BODY command.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Type">
+            <summary>
+            The MIME content-type of this body part. The content-type is
+            used to declare the general type of data.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Subtype">
+            <summary>
+            The MIME content-subtype of this body part. The subtype
+            specifies a specific format for the type of data.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Parameters">
+            <summary>
+            Parameter values present in the MIME content-type header
+            of this body part (for instance, 'charset').
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Id">
+            <summary>
+            The MIME content-id of this body part, if any. This value
+            may be used for uniquely identifying MIME entities in
+            several contexts.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Description">
+            <summary>
+            The MIME content-description of this body part. This value
+            may contain some descriptive information on the body part.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Encoding">
+            <summary>
+            The MIME content-transfer-encoding mechanism used for
+            encoding this body part's data.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Size">
+            <summary>
+            The size of this body part in bytes. Note that this size
+            is the size in its transfer encoding and not the resulting
+            size after any decoding.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Lines">
+            <summary>
+            The size of the body in text lines. This field is only
+            present in body parts with a content-type of text.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Md5">
+            <summary>
+            The computed MD5-Hash of the body part. This field is not
+            mandatory and may be empty.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Disposition">
+            <summary>
+            The MIME content-disposition for this body part. This field
+            is not mandatory and may be empty.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Language">
+            <summary>
+            A string giving the body language. This field is not mandatory
+            and may be empty.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.Bodypart.Location">
+            <summary>
+            A string list giving the body content URI. This field is not
+            mandatory and may be empty.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.Util">
+            <summary>
+            A static utility class containing methods for decoding encoded
+            non-ASCII data as is often used in mail messages as well as
+            extension methods for some existing classes.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.Util.IsASCII(System.String)">
+            <summary>
+            Returns true if the string contains only ASCII characters.
+            </summary>
+            <param name="s">Extension method for the String class.</param>
+            <returns>Returns true if the string contains only ASCII characters,
+            otherwise false is returned.</returns>
+        </member>
+        <member name="M:S22.Pop3.Util.DecodeWords(System.String)">
+            <summary>
+            Decodes a string composed of one or several MIME 'encoded-words'.
+            </summary>
+            <param name="words">A string to composed of one or several MIME
+            'encoded-words'</param>
+            <exception cref="T:System.FormatException">Thrown when an unknown encoding
+            (other than Q-Encoding or Base64) is encountered.</exception>
+            <returns>A concatenation of all enconded-words in the passed
+            string</returns>
+        </member>
+        <member name="M:S22.Pop3.Util.DecodeWord(System.String)">
+            <summary>
+            Decodes a MIME 'encoded-word' string.
+            </summary>
+            <param name="word">The encoded word to decode</param>
+            <exception cref="T:System.FormatException">Thrown when an unknown encoding
+            (other than Q-Encoding or Base64) is encountered.</exception>
+            <returns>A decoded string</returns>
+            <remarks>MIME encoded-word syntax is a way to encode strings that
+            contain non-ASCII data. Commonly used encodings for the encoded-word
+            sytax are Q-Encoding and Base64. For an in-depth description, refer
+            to RFC 2047</remarks>
+        </member>
+        <member name="M:S22.Pop3.Util.QDecode(System.String,System.Text.Encoding)">
+            <summary>
+            Takes a Q-encoded string and decodes it using the specified
+            encoding.
+            </summary>
+            <param name="value">The Q-encoded string to decode</param>
+            <param name="encoding">The encoding to use for encoding the
+            returned string</param>
+            <exception cref="T:System.FormatException">Thrown if the string is
+            not a valid Q-encoded string.</exception>
+            <returns>A Q-decoded string</returns>
+        </member>
+        <member name="M:S22.Pop3.Util.QPDecode(System.String,System.Text.Encoding)">
+            <summary>
+            Takes a quoted-printable encoded string and decodes it using
+            the specified encoding.
+            </summary>
+            <param name="value">The quoted-printable-encoded string to
+            decode</param>
+            <param name="encoding">The encoding to use for encoding the
+            returned string</param>
+            <exception cref="T:System.FormatException">Thrown if the string is
+            not a valid quoted-printable encoded string.</exception>
+            <returns>A quoted-printable decoded string</returns>
+        </member>
+        <member name="M:S22.Pop3.Util.Base64Decode(System.String)">
+            <summary>
+            Takes a Base64-encoded string and decodes it.
+            </summary>
+            <param name="value">The Base64-encoded string to decode</param>
+            <returns>A byte array containing the Base64-decoded bytes
+            of the input string.</returns>
+        </member>
+        <member name="M:S22.Pop3.Util.GetEncoding(System.String)">
+            <summary>
+            This just wraps Encoding.GetEncoding in a try-catch block to
+            ensure it never fails. If the encoding can not be determined
+            ASCII is returned as a default.
+            </summary>
+            <param name="name">The code page name of the preferred encoding.
+            Any value returned by System.Text.Encoding.WebName is a valid
+            input.</param>
+            <returns>The System.Text.Encoding associated with the specified
+            code page or Encoding.ASCII if the specified code page could not
+            be resolved.</returns>
+        </member>
+        <member name="T:S22.Pop3.FetchOptions">
+            <summary>
+            Fetch options that can be used with the GetMessage and GetMessages methods
+            to selectively retrieve parts of a mail message while skipping others.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.FetchOptions.Normal">
+            <summary>
+            Fetches the entire mail message with all of its content.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.FetchOptions.HeadersOnly">
+            <summary>
+            Only the mail message headers will be retrieved, while the actual content will
+            not be downloaded. If this option is specified, only the header fields of the
+            returned MailMessage object will be initialized.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.BadServerResponseException">
+            <summary>
+            The exception is thrown when an unexpected response is received from the server.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.BadServerResponseException.#ctor">
+            <summary>
+            Initializes a new instance of the BadServerResponseException class
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.BadServerResponseException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the BadServerResponseException class with its message
+            string set to <paramref name="message"/>.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+        </member>
+        <member name="M:S22.Pop3.BadServerResponseException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the BadServerResponseException class with its message
+            string set to <paramref name="message"/> and a reference to the inner exception that
+            is the cause of this exception.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+            <param name="inner">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:S22.Pop3.BadServerResponseException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the BadServerResponseException class with the specified
+            serialization and context information.
+            </summary>
+            <param name="info">An object that holds the serialized object data about the exception
+            being thrown. </param>
+            <param name="context">An object that contains contextual information about the source
+            or destination. </param>
+        </member>
+        <member name="T:S22.Pop3.InvalidCredentialsException">
+            <summary>
+            This exception is thrown when the supplied credentials in a login attempt were rejected
+            by the server.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.InvalidCredentialsException.#ctor">
+            <summary>
+            Initializes a new instance of the InvalidCredentialsException class
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.InvalidCredentialsException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the InvalidCredentialsException class with its message
+            string set to <paramref name="message"/>.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+        </member>
+        <member name="M:S22.Pop3.InvalidCredentialsException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the InvalidCredentialsException class with its message
+            string set to <paramref name="message"/> and a reference to the inner exception that
+            is the cause of this exception.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+            <param name="inner">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:S22.Pop3.InvalidCredentialsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the InvalidCredentialsException class with the specified
+            serialization and context information.
+            </summary>
+            <param name="info">An object that holds the serialized object data about the exception
+            being thrown. </param>
+            <param name="context">An object that contains contextual information about the source
+            or destination. </param>
+        </member>
+        <member name="T:S22.Pop3.NotAuthenticatedException">
+            <summary>
+            This exception is thrown when a client has not authenticated with the server and
+            attempts to call a method which can only be called in an authenticated context.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.NotAuthenticatedException.#ctor">
+            <summary>
+            Initializes a new instance of the NotAuthenticatedException class
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.NotAuthenticatedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the NotAuthenticatedException class with its message
+            string set to <paramref name="message"/>.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+        </member>
+        <member name="M:S22.Pop3.NotAuthenticatedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the NotAuthenticatedException class with its message
+            string set to <paramref name="message"/> and a reference to the inner exception that
+            is the cause of this exception.
+            </summary>
+            <param name="message">A description of the error. The content of message is intended
+            to be understood by humans.</param>
+            <param name="inner">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:S22.Pop3.NotAuthenticatedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the NotAuthenticatedException class with the specified
+            serialization and context information.
+            </summary>
+            <param name="info">An object that holds the serialized object data about the exception
+            being thrown. </param>
+            <param name="context">An object that contains contextual information about the source
+            or destination. </param>
+        </member>
+        <member name="T:S22.Pop3.ContentTransferEncoding">
+            <summary>
+            Possible values for the "Encoding" property of the Bodypart class. The content
+            transfer encoding indicates whether or not a binary-to-text encoding
+            scheme has been used on top of the original encoding as specified within the
+            Content-Type header.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.Unknown">
+            <summary>
+            The content tranfer encoding could not be determined or is unknown.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.Bit7">
+            <summary>
+            Up to 998 bytes per line of the code range 1 - 127 with CR and LF only
+            allowed to appear as part of a CRLF line ending.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.Bit8">
+            <summary>
+            Up to 998 bytes per line with CR and LF only allowed to appear as part
+            of a CRLF line ending.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.Binary">
+            <summary>
+            Any sequence of bytes.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.QuotedPrintable">
+            <summary>
+            Byte sequence is encoded using the quoted-printable encoding.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentTransferEncoding.Base64">
+            <summary>
+            Byte sequence is encoded using Base64 encoding.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.AuthMethod">
+            <summary>
+            Defines supported means of authenticating with the POP3 server.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.AuthMethod.Login">
+            <summary>
+            Login using plaintext username/password authentication. This
+            is the default supported by most servers.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.AuthMethod.CRAMMD5">
+            <summary>
+            Login using the CRAM-MD5 authentication mechanism.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.AuthMethod.SaslOAuth">
+            <summary>
+            Login using the OAuth authentication mechanism over
+            the Simple Authentication and Security Layer (Sasl).
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.MessageInfo">
+            <summary>
+            Describes status information of a mail message.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.MessageInfo.Number">
+            <summary>
+            The message number of this mail message.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.MessageInfo.Size">
+            <summary>
+            The size of this mail message, in bytes.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.MIMEPart">
+            <summary>
+            Represents a part of a MIME multi-part message. Each part consists
+            of its own content header and a content body.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.MIMEPart.header">
+            <summary>
+            A collection containing the content header information as
+            key-value pairs.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.MIMEPart.body">
+            <summary>
+            A string containing the content body of the part.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.ContentDisposition">
+            <summary>
+            Represents the content disposition as is presented in the BODYSTRUCTURE
+            response by the IMAP server.
+            </summary>
+        </member>
+        <member name="M:S22.Pop3.ContentDisposition.#ctor">
+            <summary>
+            Initializes a new instance of the ContentDisposition class with
+            default values.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentDisposition.Map">
+            <summary>
+            Maps MIME content disposition string values to their corresponding
+            counter-parts of the ContentDispositionType enumeration.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.ContentDisposition.Type">
+            <summary>
+            The content disposition specifies the presentation style.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.ContentDisposition.Attributes">
+            <summary>
+            Additional attribute fields for specifying the name of a file, the creation
+            date and modification date, which can be used by the reader's mail user agent
+            to store the attachment.
+            </summary>
+        </member>
+        <member name="P:S22.Pop3.ContentDisposition.Filename">
+            <summary>
+            Contains the name of the transmitted file if the content-disposition is of type
+            "Attachment" and if the name value was provided as part of the header information.
+            This field may be empty.
+            </summary>
+        </member>
+        <member name="T:S22.Pop3.ContentDispositionType">
+            <summary>
+            Possible values for the content disposition type which determines the presentation
+            style
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentDispositionType.Unknown">
+            <summary>
+            The content disposition could not be determined.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentDispositionType.Inline">
+            <summary>
+            An inline content disposition means that the content should be automatically
+            displayed when the message is displayed.
+            </summary>
+        </member>
+        <member name="F:S22.Pop3.ContentDispositionType.Attachment">
+            <summary>
+            An attachment content disposition means that the content should not be displayed
+            automatically and requires some form of action from the user to open it.
+            </summary>
+        </member>
+    </members>
+</doc>

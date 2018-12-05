@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Inbox>
+  <id>40</id>
+  <to>mailer-daemon@secureserver.net</to>
+  <subject>Message Delivery Failure</subject>
+  <body>                                                                                                                                                                                         This is an automatically generated Delivery Status Notification.      &lt;br&gt;&lt;br&gt;Delivery to the following recipients failed permanently:&lt;br&gt;&lt;br&gt;   * sindhu@gmail.com&lt;br&gt;&lt;br&gt;Reason: There was an error while attempting to deliver your message with [Subject: "Email Templates That Have Helped Us Grow Our Business"] to sindhu@gmail.com. MTA sg2plout10-02.prod.sin2.secureserver.net received this response from the destination host IP - 108.177.112.26 -  552 , 552-5.2.2 The email account that you tried to reach is over quota. Please direct&lt;br&gt;552-5.2.2 the recipient to&lt;br&gt;552 5.2.2  https://support.google.com/mail/?p=OverQuotaPerm n6si4061712ioc.84 - gsmtp&lt;br&gt;..&lt;br&gt;&lt;br&gt;&lt;br&gt;                                                                                                                                                                                                   </body>
+  <date>01-12-2018 01:24 PM</date>
+</Inbox>
